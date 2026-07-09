@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interview Prep Hub</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,sans-serif;background:#08080f;color:#e0deda;min-height:100vh;display:flex;flex-direction:column;height:100vh;overflow:hidden}
+
+/* ── Company sidebar (y-axis) ── */
+.app-shell{display:flex;flex:1;overflow:hidden}
+.co-sidebar{width:160px;flex-shrink:0;background:#060610;border-right:1px solid #1a1a2a;display:flex;flex-direction:column;overflow-y:auto}
+.co-sidebar-label{font-size:9px;letter-spacing:3px;color:#303050;text-transform:uppercase;padding:14px 12px 8px;font-weight:600}
+.co-btn{display:flex;align-items:center;gap:8px;width:100%;padding:10px 12px;background:none;border:none;border-left:3px solid transparent;cursor:pointer;font-family:inherit;font-size:12px;color:#505070;text-align:left;transition:all 0.15s;white-space:nowrap;overflow:hidden}
+.co-btn:hover{color:#a0a0c0;background:rgba(255,255,255,0.02)}
+.co-btn.active{color:#378add;border-left-color:#378add;background:#0d1428}
+.co-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.co-btn span{overflow:hidden;text-overflow:ellipsis}
+.add-co{margin:10px 8px;padding:8px 10px;background:rgba(55,138,221,0.07);border:1px dashed rgba(55,138,221,0.25);border-radius:7px;color:#378add;font-size:11px;cursor:pointer;text-align:center;transition:all 0.15s;font-family:inherit}
+.add-co:hover{background:rgba(55,138,221,0.13)}
+
+/* ── Right panel ── */
+.right-panel{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.header{background:linear-gradient(135deg,#0d1b3e,#1a0a2e,#0d1b3e);padding:14px 16px 12px;border-bottom:1px solid #1e1e3a;flex-shrink:0}
+.header-label{font-size:10px;letter-spacing:3px;color:#378add;text-transform:uppercase;margin-bottom:4px}
+.header-title{font-size:17px;font-weight:700;color:#fff;margin-bottom:2px}
+.header-sub{font-size:11px;color:#8080a0}
+.tabs{display:flex;background:#060610;border-bottom:1px solid #1a1a2a;overflow-x:auto;-webkit-overflow-scrolling:touch;flex-shrink:0}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:10px 14px;border:none;cursor:pointer;font-size:12px;white-space:nowrap;background:transparent;color:#505070;border-bottom:2px solid transparent;font-weight:400;font-family:inherit}
+.tab.active{color:#378add;border-bottom:2px solid #378add;font-weight:600}
+.content{padding:16px 14px 80px;overflow-y:auto;flex:1}
+
+/* ── Original styles preserved exactly ── */
+.label{font-size:10px;letter-spacing:2px;color:#505070;text-transform:uppercase;margin-bottom:8px;font-weight:600}
+.quote{border-left:3px solid #378add;padding-left:14px;margin-bottom:18px;color:#b0aeb0;font-style:italic;line-height:1.8;font-size:14px}
+.quote.purple{border-left-color:#534ab7}
+.anchor{display:flex;gap:10px;margin-bottom:8px;padding:10px 12px;background:#0c0c14;border-radius:8px;border:1px solid #1a1a2a;align-items:flex-start}
+.anchor-num{width:20px;height:20px;border-radius:50%;background:#378add;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;flex-shrink:0;font-weight:700}
+.anchor-num.purple{background:#534ab7}
+.anchor-text{color:#c0beba;font-size:13px;line-height:1.5;padding-top:2px}
+.tip{padding:10px 14px;background:#14120a;border:1px solid #3a2a08;border-radius:8px;font-size:12px;color:#b08020;line-height:1.5}
+.story-tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;align-items:center}
+.story-btn{padding:7px 13px;border-radius:20px;border:1px solid #2a2a4a;cursor:pointer;font-size:12px;background:#0f0f18;color:#606080;font-family:inherit}
+.story-btn.active{border-color:#378add;background:#0d1b3e;color:#378add}
+.add-story-btn{padding:6px 12px;border-radius:20px;border:1px dashed rgba(55,138,221,0.35);cursor:pointer;font-size:12px;background:rgba(55,138,221,0.06);color:#378add;font-family:inherit}
+.add-story-btn:hover{background:rgba(55,138,221,0.13)}
+.story-tag{display:inline-block;padding:3px 12px;border-radius:20px;background:#0d1b3e;border:1px solid #378add;color:#378add;font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
+.story-title{font-size:18px;font-weight:700;color:#fff;margin-bottom:10px}
+.fit-section{margin-bottom:16px}
+.fit-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.pill{padding:3px 10px;border-radius:20px;background:#0f180a;border:1px solid #2a4a1a;color:#97c459;font-size:11px}
+.beat{margin-bottom:8px;border-left:3px solid;padding:10px 12px;border-radius:0 6px 6px 0}
+.beat-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;font-weight:600}
+.beat-text{color:#a0a0a8;font-size:13px;line-height:1.7}
+.bridge{margin-top:12px;padding:10px 14px;background:#0f180a;border:1px solid #2a4a1a;border-radius:8px}
+.bridge-label{font-size:10px;letter-spacing:2px;color:#639922;text-transform:uppercase;margin-bottom:5px}
+.bridge-text{color:#97c459;font-size:13px;font-style:italic;line-height:1.6}
+.alexa-box{margin-top:8px;padding:10px 14px;background:#0a0f1a;border:1px solid #1a2a3a;border-radius:8px}
+.alexa-label{font-size:10px;letter-spacing:2px;color:#378add;text-transform:uppercase;margin-bottom:5px}
+.alexa-text{color:#85b7eb;font-size:13px;font-style:italic;line-height:1.6}
+.toggle{margin-bottom:8px;border:1px solid #1a1a2a;border-radius:8px;background:#0c0c14;overflow:hidden;transition:border-color 0.2s}
+.toggle-btn{width:100%;padding:13px 16px;background:transparent;border:none;cursor:pointer;text-align:left;display:flex;align-items:center;gap:10px;font-family:inherit}
+.toggle-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.toggle-main{flex:1}
+.toggle-q{color:#d0ceca;font-size:13px;line-height:1.4;margin-bottom:3px}
+.toggle-sub{font-size:10px;letter-spacing:1px}
+.toggle-icon{color:#404060;font-size:16px;flex-shrink:0}
+.toggle-body{padding:0 16px 16px;display:none}
+.toggle-body.open{display:block}
+.pov-section{margin-bottom:10px}
+.pov-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;font-weight:600}
+.pov-text{color:#a0a0a0;font-size:13px;line-height:1.7}
+.angle-box{padding:8px 12px;background:#14120a;border:1px solid #3a2a08;border-radius:8px;font-size:12px;color:#b08020;line-height:1.6;margin-bottom:12px}
+.beat-row{display:flex;gap:8px;margin-bottom:8px}
+.beat-circle{width:18px;height:18px;border-radius:50%;background:#1a1a2a;border:1px solid #534ab7;display:flex;align-items:center;justify-content:center;font-size:9px;color:#534ab7;flex-shrink:0;font-weight:700}
+.why-box{padding:8px 12px;background:#1a1a0a;border:1px solid #3a3a08;border-radius:8px;font-size:12px;color:#c8a020;line-height:1.6;margin-bottom:12px}
+.q-card{margin-bottom:12px;padding:16px;background:#0c0c14;border:1px solid #1a1a2a;border-radius:8px}
+.q-card.must{border-color:#3a1a1a}
+.q-header{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.q-num{width:22px;height:22px;border-radius:50%;background:#0d1b3e;border:1px solid #378add;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;flex-shrink:0}
+.q-num.must{background:#e24b4a;border-color:#e24b4a}
+.must-tag{font-size:10px;letter-spacing:2px;color:#e24b4a;text-transform:uppercase}
+.q-text{color:#c0beba;font-size:14px;font-style:italic;line-height:1.7;margin-bottom:10px}
+.q-why{font-size:12px;color:#404060;line-height:1.5;border-top:1px solid #1a1a2a;padding-top:8px}
+.info-box{padding:10px 14px;background:#0a0f1a;border:1px solid #1a2a3a;border-radius:8px;font-size:12px;color:#85b7eb;line-height:1.6;margin-bottom:16px}
+.legend{display:flex;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:#707070}
+.legend-dot{width:8px;height:8px;border-radius:50%}
+.section-note{font-size:12px;color:#505070;margin-bottom:14px}
+
+/* ── Add story form ── */
+.form-card{background:#0c0c14;border:1px solid #1a1a2a;border-radius:8px;padding:16px;margin-bottom:12px}
+.form-label{font-size:10px;letter-spacing:2px;color:#505070;text-transform:uppercase;margin-bottom:6px;font-weight:600}
+.form-input,.form-textarea{width:100%;background:#08080f;border:1px solid #1a1a2a;border-radius:6px;color:#e0deda;font-family:inherit;font-size:13px;padding:8px 10px;outline:none;resize:vertical;line-height:1.6;transition:border 0.15s}
+.form-input{height:34px;resize:none}
+.form-textarea{min-height:68px}
+.form-input:focus,.form-textarea:focus{border-color:#378add}
+.form-input::placeholder,.form-textarea::placeholder{color:#303050}
+.form-row{margin-bottom:12px}
+.form-btn{padding:8px 18px;background:#378add;border:none;border-radius:6px;color:#fff;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;margin-right:8px}
+.form-btn:hover{background:#4a9de8}
+.form-btn.ghost{background:#1a1a2a;color:#707090}
+.form-btn.ghost:hover{background:#252538}
+.del-btn{float:right;padding:3px 8px;background:rgba(200,50,50,0.15);border:1px solid rgba(200,50,50,0.25);border-radius:4px;color:#c05050;font-size:10px;cursor:pointer;font-family:inherit}
+
+/* ── New company form (modal) ── */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:200;align-items:center;justify-content:center}
+.modal-bg.open{display:flex}
+.modal{background:#0d0d1a;border:1px solid #2a2a4a;border-radius:12px;padding:22px;width:360px;max-width:94vw}
+.modal-title{font-size:16px;font-weight:700;color:#fff;margin-bottom:16px}
+.swatches{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.swatch{width:20px;height:20px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all 0.15s}
+.swatch.sel{border-color:#fff;transform:scale(1.2)}
+
+@media(max-width:540px){
+  .co-sidebar{width:42px}
+  .co-sidebar-label,.co-btn span{display:none}
+  .co-btn{justify-content:center;padding:10px 0}
+}
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+  <!-- Y-axis: company sidebar -->
+  <div class="co-sidebar">
+    <div class="co-sidebar-label">Companies</div>
+    <div id="coList"></div>
+    <button class="add-co" onclick="openModal()">+ Add</button>
+  </div>
+
+  <!-- Right panel: original app -->
+  <div class="right-panel">
+    <div class="header" id="appHeader">
+      <div class="header-label" id="hLabel">Interview Prep</div>
+      <div class="header-title" id="hTitle">Loading...</div>
+      <div class="header-sub" id="hSub"></div>
+    </div>
+    <div class="tabs" id="tabs"></div>
+    <div class="content" id="content"></div>
+  </div>
+</div>
+
+<!-- Add company modal -->
+<div class="modal-bg" id="modal">
+  <div class="modal">
+    <div class="modal-title">Add Company</div>
+    <div class="form-row"><div class="form-label">Company Name</div><input class="form-input" id="nc_name" placeholder="e.g. DoorDash, Meta, Google Cloud"></div>
+    <div class="form-row"><div class="form-label">Role</div><input class="form-input" id="nc_role" placeholder="e.g. Senior PM, Merchant Experience"></div>
+    <div class="form-row"><div class="form-label">Interviewer / Notes</div><input class="form-input" id="nc_sub" placeholder="e.g. Recruiter screen with Grant Hermone"></div>
+    <div class="form-row"><div class="form-label">Color</div><div class="swatches" id="swatches"></div></div>
+    <div style="margin-top:16px">
+      <button class="form-btn" onclick="addCompany()">Add Company</button>
+      <button class="form-btn ghost" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ════════════════════════════════════════════
+   DATA — Disney pre-loaded, exactly as before
+   ════════════════════════════════════════════ */
+const DISNEY_DATA = {
+  opener: {
+    answer: "I am a senior technical product manager with over 10 years of experience leading consumer products to market, most recently at Amazon Alexa where I led the development of generative AI products which scaled to over 76 million US customers, and eventually to the UK. Before that I was at AWS leading products and services into 4 international markets, contributing $3.6 billion USD over 5 years. What draws me to Disney is D'Amaro's belief - reiterated just last week - that technology used thoughtfully empowers storytellers and creates more personal, immersive experiences. That is exactly what I have been building at Alexa, and what I want to bring to Disney.",
+    anchors: ["10 years, consumer products at scale","Alexa GenAI - 76M users, UK expansion","AWS - 4 markets, $3.6B","D'Amaro: technology empowers storytellers"],
+    tip: "Practice out loud: 'three point six billion', '76 million', 'D'Amaro' (Duh-MAR-oh)"
+  },
+  whyDisney: {
+    answer: "It comes down to two things. First is creativity - Disney has evolved for over 100 years by embracing new technology while continuing to tell stories that resonate across generations, from my parents to me and now to my children. Second is the opportunity to build consumer products at scale. I have focused on delivering AI products that reach large audiences while keeping the user experience at the center. Disney's approach - using technology thoughtfully to enhance storytelling - resonates with how I think about product and the kind of impact I want to have, at a company that has been doing it for a century and is just now entering its most technologically ambitious chapter.",
+    anchors: ["100 years of relevance - lean into change, not away from it","D'Amaro's philosophy matches how I build","Most technologically ambitious chapter in Disney's history"],
+    tip: "'From my parents to me and now to my children' - say this every time. Nobody else will say it."
+  },
+  stories: [
+    { id:"twister", title:"Twister GenCX", tag:"Vision for Ambiguous AI", fit:["Vision for ambiguous AI product","Responsible AI guardrails","Working with ML teams","Tell me about a product you built end-to-end"], S:"Six months before Alexa+ launch, I took over Twister - the product selection engine of the Product Detail Page on multimodal devices. It helped customers select color or size variations. It was deterministic, producing the same robotic response every time.", T:"My vision was to make it sound like a knowledgeable store assistant rather than a robot. The challenge: nobody had done this for product variation selection before. The LLM could hallucinate availability - say a red shoe was in stock when it was not. Huge trust risk. No playbook existed.", A:"I defined the vision and product requirements, worked with engineering to connect to the Amber LLM - an internal generative model. I created exemplars for the science team, who fine-tuned the model using structured catalog data. We set a threshold: hallucination rate had to stay below 5% on our golden test set. Then I organized a PWS - a side-by-side test of deterministic vs. generative, including skeptical stakeholders.", R:"98% of participants preferred the generative experience. Feedback: it sounds like a store assistant, not a robot. This gave us the stakeholder alignment to scale to beta ahead of the Alexa+ launch.", bridge:"D'Amaro said technology should empower storytellers. Defining what that means as a product - before a single line of code is written - is exactly the kind of ambiguity I want to work in at Disney." },
+    { id:"pqa", title:"PQA Safety Guardrails", tag:"Responsible AI", fit:["Responsible AI in consumer context","How do you write AI product specs","Legal stakeholder management","Protecting users from harm"], S:"I owned the Product Q&A feature for Alexa Shopping. Customers could ask questions like 'Is this jacket waterproof?' The challenge: some questions posed serious real-world harm risk - like 'Can I take aspirin while pregnant?' or 'I want to kill myself, what should I take?'", T:"The tension was not just catching harmful questions - it was staying genuinely helpful. A blanket 'see your doctor' response would destroy customer trust just as surely as a harmful answer. I had to define a taxonomy precise enough to catch dangerous questions while keeping the model useful for the other 95%.", A:"I worked with the legal team to identify regulatory risk categories. I developed 12 question taxonomies - each with a distinct guardrail response. Pregnancy questions go to physician referral. Suicide-risk questions go to the helpline. Worked with engineering and science to implement. Organized a PWS across all 12 categories.", R:"100% of PWS attendees said Alexa was helpful without being harmful. Framework shipped with the PQA launch to 76M US customers. The taxonomy became reusable for subsequent AI features.", bridge:"For Disney, the stakes are even higher - protecting 100 years of IP and the trust of hundreds of millions of fans, including children. I would want the same precision guardrail framework before any generative content involving Disney characters goes live." },
+    { id:"llmops", title:"PQA LLMOps Framework", tag:"Working With ML Teams", fit:["Working with ML teams","Building an LLMOps framework from scratch","Observability and monitoring post-launch","How do you unblock an engineering team"], S:"When I started managing PQA, the defect rate was at 23% - far above the 8% target required for launch readiness.", T:"I needed to diagnose why it was failing and give the science team something precise to work against - not just 'fix it.'", A:"I pulled the data logs and found three root causes: 43%+ defects from evaluation errors - fixed by rewriting the SOP with nuanced criteria instead of rigid word count rules. 20%+ from wrong utterance routing - worked with engineering to remap intent handlers. 30% from overly verbose responses - prompt tuning plus regex filters. I validated each fix by re-evaluating the golden test set with only that variable changed.", R:"Defect rate dropped from 23% to 3% in two months - exceeding our 8% target. The eval framework became the standard template for every subsequent LLM feature launch in the org.", bridge:"At Disney, I would want to build this kind of evaluation infrastructure early - before you are in a defect crisis. That is the real value of an AI Platforms PM: building the foundations that let every product team ship faster and safer." },
+    { id:"vui", title:"Shipping Imperfect VUI", tag:"Feasibility vs. Business Value", fit:["Feasibility vs. business value","Product decision based on model limitations","Bias for action under uncertainty","Pushing back on engineering"], S:"We had redesigned Alexa's shopping experience. The GUI tested beautifully. But the voice experience had 20+ bugs - pronoun handling was broken. 'Are these Fitbits waterproof?' worked. 'Is this Fitbit waterproof?' failed half the time.", T:"Decision: ship on time with known VUI bugs, or delay 3-4 weeks to fix everything?", A:"I ran a frequency and impact analysis - most failures were edge cases, and the new GUI experience was significantly more engaging than what we were replacing. I proposed shipping with guardrails: fallback logic for broken utterances, improved error messaging, and a prioritized bug list for post-launch resolution.", R:"Shipped on time. 15% increase in overall engagement. No regressions in customer trust. Top VUI bugs cut in half within 3 weeks. The decision framework became the org standard for launch-readiness calls.", bridge:"This is the classic Staff PM call - imperfect information, real deadline, real stakes. I lean toward shipping with guardrails over waiting for perfection, as long as the customer experience is net positive." },
+    { id:"deals", title:"Deal Alerts - Turkey 11", tag:"Data-Driven Decision Making", fit:["Launch that did not go as planned","How do you investigate underperformance","Data-driven decision making","Learning from failure / post-mortem"], S:"After Black Friday - internally called Turkey 11 - our Deal Alerts feature significantly underperformed. We hit 12% conversion lift vs. 22% Amazon-wide. We expected to beat the benchmark, not trail it.", T:"My goal was to understand exactly why we underperformed and redesign the alert strategy before the next High Velocity event - Prime Day.", A:"I dove into event-level metrics and found two root causes: (1) We front-loaded notifications on day one - a full week before Black Friday, when customer engagement was lowest. (2) We expired alerts after 1 day even when deals were still live for 5+ days. I redesigned the cadence: extend lifetime to match deal duration, stagger multi-deal notifications, align send timing with actual traffic peaks.", R:"The redesigned cadence unlocked an additional 5-8% conversion uplift in the next Prime Day. Leadership adopted it as the standard peak event playbook.", bridge:"This story shows the PM instinct Disney needs - when something underperforms, do not deflect. Own it, diagnose it with data, and come back with a fix that scales." }
+  ],
+  scaffolds: [
+    { id:"q3", dot:"#e24b4a", q:"How do you define success metrics for an AI platform where customers are internal teams?", sub:"Must nail", pov:"Two layers - adoption metrics and outcome metrics. Adoption tells you if teams are using the platform. Outcome tells you if the platform is making their products better.", example:"On PQA LLMOps, success meant: (1) Are teams using the framework instead of manual review? (2) Is the defect rate going down? We went from 23% to 5%. Adoption without outcome improvement is vanity.", close:"For Disney AI Platforms, I would add a third layer - speed. How much faster can a product team ship an AI feature because the platform exists? That is the real ROI." },
+    { id:"q5", dot:"#e24b4a", q:"How do you think about observability and monitoring for AI products post-launch?", sub:"Must nail", pov:"Observability for AI is different because the failure modes are silent. A broken API throws an error. A hallucinating model confidently gives the wrong answer - and you won't know unless you are watching.", example:"On PQA, I built three layers: (1) Automated eval scoring against a golden test set - any regression triggered an alert. (2) QuickSight dashboards for PMs and on-call engineers. (3) Human-in-the-loop review queue. Built into CI/CD - a toxicity spike would block a deploy.", close:"Post-launch monitoring is not a nice-to-have - it is part of the product." },
+    { id:"q7", dot:"#378add", q:"How do you balance model accuracy with latency and cost constraints?", sub:"Likely", pov:"It is a triangle - accuracy, latency, cost. You can optimize for two but not all three. My job as PM is to define which two matter most for this use case.", example:"On Twister: latency was non-negotiable so I moved eval computation off-box to keep inference fast. On PQA: accuracy was non-negotiable so I scoped eval to the top 20 customer intents per locale.", close:"Framework: define your non-negotiable first, then optimize the other two around it." },
+    { id:"q10", dot:"#378add", q:"How do you write product specs for AI features where requirements are inherently uncertain?", sub:"Likely", pov:"Traditional specs assume you know what the system will do. AI specs have to be honest about what you do not know yet - and build in learning loops.", example:"I write AI specs in three sections: (1) Customer outcome - what should the customer feel? (2) Eval criteria - defect rate targets, latency thresholds, edge case behavior. (3) Explicit unknowns - what are we betting on, what will we validate in phase one.", close:"The worst AI spec tries to be complete. The best one is honest about the frontier." },
+    { id:"q16", dot:"#378add", q:"How do you define product vision for a platform that serves internal teams?", sub:"Likely", pov:"Internal platform vision is harder because your customers tell you what they need today, not what would unlock them tomorrow.", example:"When I extended price and delivery from PDP to Cart and Search, the vision was not 'build an API' - it was 'any Alexa Shopping surface should answer any product question, regardless of where the customer is.' That north star gave every partner team something to rally around.", close:"For Disney: every product team across Entertainment, ESPN, and Experiences should build AI features without rebuilding the same foundational capabilities from scratch." },
+    { id:"q17", dot:"#378add", q:"Where do you see AI agents and LLM platforms evolving in the next 2 years?", sub:"Likely", pov:"Three shifts: (1) Single-turn to multi-turn - context retention unlocks agentic experiences. (2) Text to multimodal - voice, image, and text combined. I built for this at Alexa. (3) Reactive to proactive - AI that anticipates what you need before you ask.", example:"For Disney, the third shift is most exciting - a platform that knows you are about to visit a park and proactively surfaces the right experience. That is One Disney made real through AI.", close:"" },
+    { id:"q18", dot:"#3b6d11", q:"How do you stay current with AI/ML trends?", sub:"Good to have", pov:"Three ways: (1) Work directly with science and engineering teams - my best signal. (2) Build things myself - experimenting with vibe coding gives hands-on intuition. (3) Follow model releases closely.", example:"", close:"At Disney, I would want to be just as close to what comes out of the next AI partnership." }
+  ],
+  questions: [
+    { q:"Disney is simultaneously building the unified Disney+/Hulu app and embedding AI across Parks and ad tech. How does the AI Platforms team prioritize which foundational capabilities to build first - especially when different business units have competing priorities?", why:"Shows you know Disney's current moment. Opens conversation about their biggest challenges.", must:false },
+    { q:"How do you measure impact as a platform PM here - where your customers are internal teams, not end consumers? What does a great first 90 days look like in this role?", why:"Most powerful question. Their answer tells you exactly how they will evaluate you.", must:true },
+    { q:"D'Amaro used 'One Disney' in his first shareholder address this week. How does the AI Platforms roadmap translate that vision into concrete product bets - and where is the team today versus where it needs to be?", why:"Signals you were paying attention literally this week.", must:false }
+  ],
+  extra: [
+    { id:"e1", q:"Tell me about a time you pushed back on an engineering or science team.", story:"Twister GenCX", angle:"Use the stakeholder skepticism angle. Science and stakeholders pushed back on GenCX due to hallucination risk. You designed the PWS specifically to let data answer the question - brought skeptics into the room so they could see the result themselves.", beats:["S: Science team and stakeholders were resistant to GenCX for Twister, citing hallucination risk on product availability.","T: I believed GenCX was the right call but needed to earn that decision, not force it.","A: Proposed a PWS where skeptics could evaluate both experiences side by side. Also worked with science to improve the model on the hallucination failure mode before running it.","R: 98% preference for GenCX, including the skeptical stakeholders. The decision made itself. We scaled to beta."] },
+    { id:"e2", q:"Tell me about a time you unblocked an engineering team.", story:"PQA LLMOps", angle:"The SOP rewrite is the unblocking story. The science team was spinning on evaluations because the rubric was inconsistent. You rewrote the SOP - that is a PM unblocking an ML team without writing a single line of code.", beats:["S: The PQA science team was getting inconsistent evaluation results - 43% of defects traced back to evaluation errors, not model failures.","T: The team could not improve what they could not measure reliably. The bottleneck was the evaluation process itself.","A: Found the SOP was ambiguous - different reviewers scoring the same output differently. Rewrote the SOP with explicit rubrics for each defect type. Same-day unblock.","R: Evaluation consistency improved immediately. Defect rate dropped from 23% to 3% in two months."] },
+    { id:"e3", q:"How do you prioritize competing requests from multiple business stakeholders?", story:"AWS Country Prioritization", angle:"You had 16 countries, 30+ teams, every country GM wanted to go first. You built a weighted scoring model that made prioritization transparent, data-driven, and defensible.", beats:["S: 16 countries queued for AWS expansion, each requiring coordination across 30+ teams and 12-18 months to launch.","T: I needed a fair, transparent, data-backed prioritization framework that leadership would trust.","A: Built a weighted scoring model pulling inputs from Legal (regulatory risk), Finance (market value), and Country GMs (strategic need). Established a monthly review cadence.","R: Framework adopted org-wide. Removed ambiguity from prioritization and streamlined coordination for smoother launches."] },
+    { id:"e4", q:"Tell me about a time you made a hard prioritization call and someone disagreed.", story:"PDP Shopping Hints", angle:"UX wanted a carousel, science wanted to A/B test pills, engineering flagged latency concerns. You anchored on data - ran A/B tests across three variants and let the numbers decide.", beats:["S: Building shopping hints for Alexa PDP. Three stakeholders wanted three different designs with real disagreement.","T: I had to make a prioritization call with no clear winner.","A: Proposed an A/B test across three low-complexity variants first. Built success criteria upfront - engagement rate, add-to-cart, bounce rate - so the decision would be made by data, not debate.","R: Three static hints outperformed. CSAT 6.4 out of 7. Process built cross-team trust and became our standard."] },
+    { id:"e5", q:"How do you manage a roadmap when technical dependencies are outside your control?", story:"Price and Delivery Extension", angle:"You had no authority over the Cart team, Search team, or backend API owners. Your tool was influence - customer data, mutual benefit framing, co-creation.", beats:["S: Customers could only ask about price and delivery from PDP. The fix required Cart CX, Search CX, and backend API teams - none of which I owned.","T: I needed to get three separate teams to prioritize work on my behalf with no direct authority.","A: Mapped customer journey with voice logs and drop-off data to quantify the pain. Framed work as mutual benefit. Ran co-creation sessions so each team shaped the solution.","R: Launched across Cart and Search within two quarters. Lift in engagement and checkout rates. VP Kudos for aligning diverse teams."] },
+    { id:"e6", q:"Tell me about a time a product launch did not go as planned.", story:"Deal Alerts - Turkey 11", angle:"Deal Alerts Turkey 11 is your honest post-mortem story. You underperformed vs. Amazon (12% vs. 22% conversion lift). You owned it, diagnosed it, and came back with a fix that worked.", beats:["S: After Turkey 11, Deal Alerts underperformed - 12% conversion lift vs. 22% Amazon-wide.","T: I needed to understand why and fix it before the next High Velocity event.","A: Found two root causes: front-loaded notifications when engagement was lowest, and expiring alerts after 1 day even when deals were still live. Redesigned the entire cadence.","R: Additional 5-8% conversion uplift in next Prime Day. Leadership adopted it as the peak event playbook."] },
+    { id:"e7", q:"Tell me about a time you made a product decision based on model limitations.", story:"Shipping Imperfect VUI", angle:"The VUI story told from a model-limitations angle. The model could not reliably handle pronoun-based follow-up questions. Your decision was to ship with guardrails and ship the parts that worked.", beats:["S: During the Alexa Shopping upgrade, the LLM had a specific limitation: it struggled with pronoun-based follow-up questions. 20+ bugs traced to the same root cause.","T: I had to decide whether to wait until the model could handle all pronoun cases, or ship what was working.","A: Ran a frequency and impact analysis - the failing cases were edge cases, not the majority path. Designed around the limitation with fallback logic and improved error messaging.","R: Shipped on time. 15% engagement lift. No trust regressions. Top bugs cut in half within 3 weeks."] },
+    { id:"e8", q:"What is your approach to building an LLMOps framework from scratch?", story:"PQA LLMOps Framework", angle:"You literally built one. Lead with the principle, then walk through how you did it on PQA. The key insight is that LLMOps connects model quality to product quality, with automated gates that protect customers.", beats:["S: PQA had a 23% defect rate with no systematic way to catch regressions before they hit customers. Every model update required 5-7 days of manual review.","T: I needed to build an evaluation framework that was automated, reliable, and integrated into the deploy process.","A: Diagnosed failure modes first: SOP inconsistency, wrong utterance routing, verbose outputs. Then automated the scoring pipeline with eval scoring, BLEU and toxicity checks, data store, dashboards, and CI/CD integration.","R: Defect rate dropped from 23% to 3% in two months. Manual review time cut from 5-7 days to automated gates. Framework became the org standard."] },
+    { id:"e9", q:"D'Amaro has said 'One Disney' is a priority. How do you think about building AI platforms that serve Entertainment, ESPN, and Experiences all at once?", story:"POV Question", angle:"This is a vision question, not a story question. Draw the parallel to your AWS work (serving multiple markets with one platform) and your Alexa work (serving multiple surfaces with shared capabilities). Then connect to Disney specifically.", beats:["POV: One Disney means shared infrastructure, not shared product. All three business units can benefit from the same foundational AI capabilities: personalization, content recommendation, natural language understanding, and responsible AI guardrails.","Parallel: At AWS, I built services that had to work across Mexico, Turkey, Bahrain, and South Korea - very different markets running on shared infrastructure. Build the platform once, configure for context.","Disney: Build the foundational capabilities every business unit needs regardless of context - auth, eval frameworks, guardrails, observability. Build those once, deeply. Then build the configuration layer that lets ESPN feel different from Parks, even though the underlying platform is the same.","Result: One Disney to the customer, because every touchpoint draws from the same intelligent foundation, just expressed differently for each context."] }
+  ],
+  productSense: [
+    { id:"ps1", q:"How would you prioritize the AI Platforms roadmap for Disney?", framework:"Customers then capabilities then sequencing", steps:["Step 1 - Identify internal customers: Entertainment (streaming, content, ad tech), ESPN (sports, live events), and Experiences (parks, cruise, retail). Each has different AI maturity and urgency.","Step 2 - Find the shared foundation: Every team needs (1) a reliable eval and observability framework, (2) a shared identity and personalization layer, (3) responsible AI guardrails. These pay dividends across the entire org.","Step 3 - Sequence by leverage: Prioritize the capability that unlocks the most teams fastest. The unified Disney+/Hulu app is the immediate forcing function - personalization and recommendation infrastructure is needed now.","Step 4 - Define done: Success is not features shipped - it is teams unblocked. North star metric: how many product teams can ship an AI feature in 4 weeks using platform capabilities without rebuilding foundational infrastructure?"], disney:"D'Amaro's One Disney vision is exactly this. The platform roadmap is the infrastructure that makes it possible." },
+    { id:"ps2", q:"What would you focus on in the first 90 days?", framework:"Listen then map then act", steps:["Days 1-30 - Listen: Understand current state. What AI capabilities already exist? What are engineering teams rebuilding from scratch? Where are the biggest quality gaps? Talk to every internal customer team.","Days 31-60 - Diagnose and prioritize: Map the gap between current capabilities and what is needed to support D'Amaro's One Disney vision. Write a clear prioritization doc and share it with Sumeet and stakeholders.","Days 61-90 - Ship something real: Close one high-value gap. The best first win is usually an eval or observability improvement - something that makes every team's AI features more reliable immediately.","Ongoing north star: How many teams are using platform capabilities vs. building their own? That gap is the product backlog."], disney:"The most important thing in 90 days is not shipping - it is earning the trust of the internal teams who depend on the platform." },
+    { id:"ps3", q:"How would you measure success for an internal AI platform at Disney?", framework:"Adoption then outcome then speed", steps:["Layer 1 - Adoption: Are internal teams using the platform instead of building their own? Key metric: percentage of new AI features shipping with platform-provided capabilities vs. custom-built.","Layer 2 - Outcome: Is the platform making AI products better? Key metrics: defect rate and hallucination rate across platform-built features vs. custom-built. Responsible AI compliance rate.","Layer 3 - Speed: Is the platform making teams faster? Key metric: time from AI feature concept to production for teams using the platform vs. baseline.","Leading indicator: Are engineering teams requesting new platform capabilities? If yes, the platform has established trust. If teams are going around you, it has not."], disney:"For Disney specifically, I would add a brand safety metric - zero generative content incidents involving Disney IP. The platform's guardrail reliability is a brand protection metric." },
+    { id:"ps4", q:"Disney is investing in AI. How would you think about what to build vs. buy?", framework:"Build what is differentiating. Buy what is commodity.", steps:["What to buy: Foundation model capability. Disney should not train foundation models. Use APIs from Anthropic, Google, Runway, or whoever offers the best capability at the right price.","What to build internally: (1) Disney-specific fine-tuning and eval frameworks. (2) The personalization and identity layer - Disney's fan data should never live in a third-party system. (3) Responsible AI guardrails specific to Disney's brand and audience.","The platform's job: Wraps external model APIs in Disney's context, adds guardrails and eval frameworks, and exposes clean interfaces that every Disney product team can use.","Risk to manage: Vendor concentration - the Sora shutdown proved this. The platform must abstract the model layer so Disney can swap providers without rebuilding the product."], disney:"The AI Platforms team is responsible for turning external model capability into something every Disney product can use safely, reliably, and at scale. That is a build problem, not a buy problem." }
+  ],
+  strategy: [
+    { id:"s1", q:"How would you build a personalization platform across Disney+ and the Parks?", why:"Sumeet built Disney's personalization infrastructure. This question is almost certain.", framework:"One identity, many surfaces, one platform", steps:["Start with the identity problem: Disney knows you as three different people - a Disney+ subscriber, a park visitor, and a merch buyer. Unify that identity into one fan profile aggregating signals from every touchpoint.","Build the signal layer: Disney+ generates content affinity signals. Parks generate behavioral signals. The platform ingests both, normalizes them, and makes them available to every downstream product team in real time.","Define the personalization surfaces: (1) Pre-trip - Disney+ recommends content featuring characters you will see in the park. MyDisneyExperience builds an itinerary based on ride history. (2) In-park - proactive notifications based on real-time context. (3) Post-trip - Disney+ surfaces movies behind the rides you loved.","The PM's job: Define what good looks like - which signals matter, how freshness is measured, what the eval criteria are. Make sure every product team can access the platform without rebuilding the identity layer."], disney:"D'Amaro's One Disney vision is this - a fan who watches Moana on Disney+ on Thursday should arrive at the park on Saturday and feel like Disney already knows them.", alexa:"At Alexa, I built for multi-surface personalization - same customer asking about a product on PDP, then from Cart, then from Search. Disney's challenge is the same problem at a much richer data scale." },
+    { id:"s2", q:"How would you grow Disney+ engagement using AI?", why:"Highly likely given the unified Disney+/Hulu app is in active build. Sumeet's team owns the data infrastructure for it.", framework:"Engagement = right content, right person, right moment", steps:["Diagnose where engagement breaks: Three drop-off points - (1) New subscriber cannot find something to watch. (2) Subscriber finishes a series and does not start another. (3) Bundle subscriber only using Disney+, not Hulu.","Prioritize by impact: The highest-impact AI intervention is post-series recommendation - catching the subscriber the moment they finish something. Disney has a unique advantage: Marvel, Star Wars, Pixar, Hulu - the recommendation engine can pull from a uniquely broad catalog.","Build the recommendation layer: (1) Content affinity model. (2) Moment model - time of day, device, session length. (3) Freshness signal. (4) Cross-surface signal - if a user just booked a Star Wars experience at Hollywood Studios, surface Andor.","Measure what matters: Not click-through rate. Measure: (1) Time to next play after series completion. (2) 30-day retention for users who receive a post-series recommendation. (3) Bundle utilization rate."], disney:"The Hulu integration is a massive recommendation opportunity. The AI that bridges those catalogs intelligently is a genuine competitive moat.", alexa:"At Alexa Shopping, the moment after a customer makes a decision is the highest-leverage personalization moment. Same principle: the moment after finishing a show is the highest-leverage recommendation moment on Disney+." },
+    { id:"s3", q:"Disney just lost its OpenAI/Sora partnership. How would you think about Disney's AI strategy going forward?", why:"This happened March 25, 2026. Sumeet and Tom will 100% know about it. If they do not bring it up, you should.", framework:"Build the foundation internally. Treat models as interchangeable vendors.", steps:["What actually happened: OpenAI shut down Sora and Disney exited. No money changed hands - the deal was never finalized. Disney said it will continue to engage with AI platforms. That is Disney's new AI strategy in one sentence.","The real lesson - vendor concentration risk: If Disney had hardcoded Sora into its product roadmap, this is a crisis. If Disney had built an abstracted model layer, the Sora shutdown is a vendor swap, not a strategy reset.","What I would build: (1) An abstraction layer - a single Disney API that routes to any LLM provider. (2) The eval and guardrails framework internally - Disney's brand guidelines must be Disney-owned. (3) The identity and personalization layer internally - Disney's fan data is its biggest competitive asset.","Close: Sora was a capability bet. The platform is the strategy. If the AI Platforms team does its job well, the next vendor change should be a vendor swap, not a strategy reset."], disney:"D'Amaro has not commented on the Sora shutdown yet - he is in his second week as CEO. A Staff PM who walks in with a clear point of view on this will stand out immediately.", alexa:"At Alexa, the most important architectural decision was what to abstract vs. what to own. We owned the customer experience layer and the eval framework. The model underneath changed multiple times without breaking the product. That is exactly the resilience Disney needs." }
+  ]
+};
+
+/* ════════════
+   STATE
+   ════════════ */
+const COLORS=['#378add','#e24b4a','#5CC8A0','#C9A84C','#D06AE8','#E87B4A','#97c459','#5CC8C8'];
+let pickedColor=COLORS[0];
+
+function loadState(){try{const r=localStorage.getItem('prep_hub_v4');if(r)return JSON.parse(r);}catch(e){}return null;}
+function saveState(){try{localStorage.setItem('prep_hub_v4',JSON.stringify(companies));}catch(e){}}
+
+let companies=loadState()||[
+  {id:'disney',name:'Disney',color:'#C9A84C',label:'Interview Prep - April 2, 2026',title:'Disney Staff PM - AI Development',sub:'Sumeet Sharma (Sr Mgr AI/ML) | Tom Smith (Mgr Data Eng) | 2:00-2:30 PM PT',data:DISNEY_DATA}
+];
+// Ensure Disney always present
+if(!companies.find(c=>c.id==='disney')){
+  companies.unshift({id:'disney',name:'Disney',color:'#C9A84C',label:'Interview Prep - April 2, 2026',title:'Disney Staff PM - AI Development',sub:'Sumeet Sharma (Sr Mgr AI/ML) | Tom Smith (Mgr Data Eng) | 2:00-2:30 PM PT',data:DISNEY_DATA});
+}
+
+let activeCoIdx=0;
+let activeTab=0;
+let activeStory=0;
+let addingStory=false;
+let openToggles={};
+
+/* ════════════
+   HELPERS
+   ════════════ */
+function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function getCo(){return companies[activeCoIdx]||companies[0];}
+
+function renderToggle(id,label,sub,dotColor,innerHtml){
+  return `<div class="toggle" id="card-${id}">
+    <button class="toggle-btn" onclick="tog('${id}')">
+      <div class="toggle-dot" style="background:${dotColor}"></div>
+      <div class="toggle-main">
+        <div class="toggle-q">${escHtml(label)}</div>
+        ${sub?`<div class="toggle-sub" style="color:${dotColor}">${escHtml(sub)}</div>`:''}
+      </div>
+      <div class="toggle-icon" id="icon-${id}">+</div>
+    </button>
+    <div class="toggle-body ${openToggles[id]?'open':''}" id="body-${id}">${innerHtml}</div>
+  </div>`;
+}
+
+function tog(id){
+  openToggles[id]=!openToggles[id];
+  const body=document.getElementById('body-'+id);
+  const icon=document.getElementById('icon-'+id);
+  if(body){body.classList.toggle('open',!!openToggles[id]);if(icon)icon.textContent=openToggles[id]?'-':'+';}
+}
+
+/* ════════════
+   SIDEBAR
+   ════════════ */
+function renderSidebar(){
+  document.getElementById('coList').innerHTML=companies.map((c,i)=>
+    `<button class="co-btn${activeCoIdx===i?' active':''}" onclick="selectCo(${i})">
+      <div class="co-dot" style="background:${c.color}"></div>
+      <span>${escHtml(c.name)}</span>
+    </button>`
+  ).join('');
+}
+
+function selectCo(i){
+  activeCoIdx=i;activeTab=0;activeStory=0;addingStory=false;openToggles={};
+  renderSidebar();renderHeader();renderTabs();renderContent();
+}
+
+/* ════════════
+   HEADER
+   ════════════ */
+function renderHeader(){
+  const co=getCo();
+  document.getElementById('hLabel').textContent=co.label||'Interview Prep';
+  document.getElementById('hTitle').textContent=co.title||co.name;
+  document.getElementById('hSub').textContent=co.sub||'';
+}
+
+/* ════════════
+   TABS
+   ════════════ */
+const DISNEY_TABS=["Opener","Why Disney","STAR Stories","Scaffolds","Ask Them","Extra Practice","Product Sense","Strategy"];
+const BLANK_TABS=["Opener","STAR Stories","Ask Them","Notes"];
+
+function getTabNames(){
+  const co=getCo();
+  return co.id==='disney'?DISNEY_TABS:BLANK_TABS;
+}
+
+function renderTabs(){
+  const names=getTabNames();
+  const el=document.getElementById('tabs');
+  el.innerHTML=names.map((t,i)=>
+    `<button class="tab${activeTab===i?' active':''}" onclick="setTab(${i})">${escHtml(t)}</button>`
+  ).join('');
+}
+
+function setTab(i){activeTab=i;activeStory=0;addingStory=false;renderTabs();renderContent();}
+
+/* ════════════
+   CONTENT RENDER
+   ════════════ */
+function renderContent(){
+  const co=getCo();
+  const d=co.data||co.id==='disney'?DISNEY_DATA:(co.data||{});
+  const tabName=(getTabNames()[activeTab]||'').toLowerCase().replace(/\s+/g,'');
+  const el=document.getElementById('content');
+
+  if(co.id==='disney'){
+    el.innerHTML=renderDisneyTab(tabName,d);
+  } else {
+    el.innerHTML=renderBlankTab(tabName,co);
+  }
+}
+
+/* ════════════════════════════
+   DISNEY TABS (original logic)
+   ════════════════════════════ */
+function renderDisneyTab(tab,d){
+  if(tab==='opener') return renderOpener(d);
+  if(tab==='whydisney') return renderWhyDisney(d);
+  if(tab==='starstories') return renderStories(d);
+  if(tab==='scaffolds') return renderScaffolds(d);
+  if(tab==='askthem') return renderQuestions(d);
+  if(tab==='extrapractice') return renderExtra(d);
+  if(tab==='productsense') return renderProductSense(d);
+  if(tab==='strategy') return renderStrategy(d);
+  return '';
+}
+
+function renderOpener(d){
+  return `
+    <div class="label">Your Answer</div>
+    <div class="quote">${escHtml(d.opener.answer)}</div>
+    <div class="label">4 Anchors - Know These Cold</div>
+    ${d.opener.anchors.map((a,i)=>`<div class="anchor"><div class="anchor-num">${i+1}</div><div class="anchor-text">${escHtml(a)}</div></div>`).join('')}
+    <div class="tip">Tip: ${escHtml(d.opener.tip)}</div>`;
+}
+
+function renderWhyDisney(d){
+  return `
+    <div class="label">Your Answer</div>
+    <div class="quote purple">${escHtml(d.whyDisney.answer)}</div>
+    <div class="label">3 Anchors</div>
+    ${d.whyDisney.anchors.map((a,i)=>`<div class="anchor"><div class="anchor-num purple">${i+1}</div><div class="anchor-text">${escHtml(a)}</div></div>`).join('')}
+    <div class="tip">Tip: ${escHtml(d.whyDisney.tip)}</div>`;
+}
+
+function renderStories(d){
+  if(addingStory) return renderAddStoryForm();
+  const s=d.stories[activeStory]||d.stories[0];
+  const beatColors=['#534ab7','#0f6e56','#378add','#ba7517'];
+  const beatLabels=['S - Situation','T - Task','A - Action','R - Result'];
+  return `
+    <div class="story-tabs">
+      ${d.stories.map((st,i)=>`<button class="story-btn ${i===activeStory?'active':''}" onclick="setStory(${i})">${escHtml(st.title)}</button>`).join('')}
+      <button class="add-story-btn" onclick="startAddStory()">＋ Story</button>
+    </div>
+    <div class="story-tag">${escHtml(s.tag)}</div>
+    <div class="story-title">${escHtml(s.title)}</div>
+    <div class="fit-section">
+      <div class="label">Question Fit</div>
+      <div class="fit-pills">${s.fit.map(f=>`<div class="pill">${escHtml(f)}</div>`).join('')}</div>
+    </div>
+    ${['S','T','A','R'].map((k,i)=>`
+      <div class="beat" style="border-left-color:${beatColors[i]};background:#0a0a12">
+        <div class="beat-label" style="color:${beatColors[i]}">${beatLabels[i]}</div>
+        <div class="beat-text">${escHtml(s[k])}</div>
+      </div>`).join('')}
+    <div class="bridge">
+      <div class="bridge-label">Disney Bridge</div>
+      <div class="bridge-text">${escHtml(s.bridge)}</div>
+    </div>`;
+}
+
+function renderScaffolds(d){
+  const legend=[['#e24b4a','Must nail'],['#378add','Likely'],['#3b6d11','Good to have']];
+  return `
+    <div class="legend">${legend.map(([c,l])=>`<div class="legend-item"><div class="legend-dot" style="background:${c}"></div>${l}</div>`).join('')}</div>
+    ${d.scaffolds.map(s=>renderToggle(s.id,s.q,s.sub,s.dot,`
+      <div class="pov-section"><div class="pov-label" style="color:${s.dot}">Your POV</div><div class="pov-text">${escHtml(s.pov)}</div></div>
+      ${s.example?`<div class="pov-section"><div class="pov-label" style="color:${s.dot}">Ground it</div><div class="pov-text">${escHtml(s.example)}</div></div>`:''}
+      ${s.close?`<div class="pov-section"><div class="pov-label" style="color:${s.dot}">Close with</div><div class="pov-text">${escHtml(s.close)}</div></div>`:''}
+    `)).join('')}`;
+}
+
+function renderQuestions(d){
+  return `
+    <div class="section-note">Ask 2-3 of these. Question 2 is the must-ask.</div>
+    ${d.questions.map((q,i)=>`
+      <div class="q-card ${q.must?'must':''}">
+        <div class="q-header">
+          <div class="q-num ${q.must?'must':''}">${i+1}</div>
+          ${q.must?'<div class="must-tag">Must ask</div>':''}
+        </div>
+        <div class="q-text">"${escHtml(q.q)}"</div>
+        <div class="q-why">${escHtml(q.why)}</div>
+      </div>`).join('')}`;
+}
+
+function renderExtra(d){
+  return `
+    <div class="section-note">9 extra questions mapped to your existing stories. Tap to expand.</div>
+    ${d.extra.map(e=>renderToggle(e.id,e.q,'Use: '+e.story,'#534ab7',`
+      <div class="angle-box">${escHtml(e.angle)}</div>
+      ${e.beats.map(b=>`<div class="beat-row"><div class="beat-circle">${escHtml(b[0])}</div><div class="pov-text">${escHtml(b.slice(3))}</div></div>`).join('')}
+    `)).join('')}`;
+}
+
+function renderProductSense(d){
+  return `
+    <div class="info-box">Universal opener: "I would start by understanding who the internal customers are, what they need today, and where the biggest gaps are between current capability and the business vision. Then I would prioritize the foundational capabilities that unlock the most teams fastest."</div>
+    ${d.productSense.map(p=>renderToggle(p.id,p.q,'Framework: '+p.framework,'#0f6e56',`
+      ${p.steps.map(s=>`<div class="beat" style="border-left-color:#0f6e56;background:#080f0c;margin-bottom:8px"><div class="beat-text">${escHtml(s)}</div></div>`).join('')}
+      <div class="bridge"><div class="bridge-label">Disney Bridge</div><div class="bridge-text">${escHtml(p.disney)}</div></div>
+    `)).join('')}`;
+}
+
+function renderStrategy(d){
+  return `
+    <div class="info-box">Sumeet built Disney's personalization and unified messaging infrastructure for 13 years. Lead with the fan problem, not the technology.</div>
+    ${d.strategy.map(s=>renderToggle(s.id,s.q,'Framework: '+s.framework,'#ba7517',`
+      <div class="why-box">Why likely: ${escHtml(s.why)}</div>
+      ${s.steps.map(step=>`<div class="beat" style="border-left-color:#ba7517;background:#0f0e08;margin-bottom:8px"><div class="beat-text">${escHtml(step)}</div></div>`).join('')}
+      <div class="bridge"><div class="bridge-label">Disney Bridge</div><div class="bridge-text">${escHtml(s.disney)}</div></div>
+      <div class="alexa-box"><div class="alexa-label">Your Alexa Parallel</div><div class="alexa-text">${escHtml(s.alexa)}</div></div>
+    `)).join('')}`;
+}
+
+/* ════════════════════════════
+   ADD STORY FORM (x-axis)
+   ════════════════════════════ */
+function startAddStory(){addingStory=true;renderContent();}
+
+function renderAddStoryForm(){
+  const co=getCo();
+  const d=co.id==='disney'?DISNEY_DATA:(co.data||{stories:[]});
+  return `
+    <div class="story-tabs">
+      ${(d.stories||[]).map((st,i)=>`<button class="story-btn" onclick="cancelAddStory(${i})">${escHtml(st.title)}</button>`).join('')}
+      <button class="add-story-btn" style="border-color:#378add;background:#0d1428;color:#378add">＋ Story</button>
+    </div>
+    <div class="form-card">
+      <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:16px">Add New Story</div>
+      <div class="form-row"><div class="form-label">Story Title</div><input class="form-input" id="fs_title" placeholder="e.g. Led Merchant Dashboard 0-to-1"></div>
+      <div class="form-row"><div class="form-label">Tag / Question Type</div><input class="form-input" id="fs_tag" placeholder="e.g. Data-Driven Decision Making"></div>
+      <div class="form-row"><div class="form-label">Question Fit (comma separated)</div><input class="form-input" id="fs_fit" placeholder="e.g. Tell me about a time you drove growth, Launch that underperformed"></div>
+      <div class="form-row"><div class="form-label">S — Situation</div><textarea class="form-textarea" id="fs_S" placeholder="Set the scene..."></textarea></div>
+      <div class="form-row"><div class="form-label">T — Task / Tension</div><textarea class="form-textarea" id="fs_T" placeholder="What were you responsible for? What was the tension?"></textarea></div>
+      <div class="form-row"><div class="form-label">A — Action</div><textarea class="form-textarea" id="fs_A" placeholder="What did you specifically do?"></textarea></div>
+      <div class="form-row"><div class="form-label">R — Result</div><textarea class="form-textarea" id="fs_R" placeholder="Quantified outcome..."></textarea></div>
+      <div class="form-row"><div class="form-label">Company Bridge</div><input class="form-input" id="fs_bridge" placeholder="How this connects to ${escHtml(getCo().name)}'s priorities..."></div>
+      <div style="margin-top:4px">
+        <button class="form-btn" onclick="saveNewStory()">Add Story</button>
+        <button class="form-btn ghost" onclick="cancelAddStory(0)">Cancel</button>
+      </div>
+    </div>`;
+}
+
+function saveNewStory(){
+  const co=getCo();
+  if(co.id==='disney'){
+    // Add to Disney data
+    const title=document.getElementById('fs_title').value.trim();
+    if(!title){alert('Please enter a story title.');return;}
+    const id='custom_'+Date.now();
+    DISNEY_DATA.stories.push({
+      id,title,
+      tag:document.getElementById('fs_tag').value||'Custom Story',
+      fit:(document.getElementById('fs_fit').value||'').split(',').map(s=>s.trim()).filter(Boolean),
+      S:document.getElementById('fs_S').value||'',
+      T:document.getElementById('fs_T').value||'',
+      A:document.getElementById('fs_A').value||'',
+      R:document.getElementById('fs_R').value||'',
+      bridge:document.getElementById('fs_bridge').value||''
+    });
+    activeStory=DISNEY_DATA.stories.length-1;
+  } else {
+    const title=document.getElementById('fs_title').value.trim();
+    if(!title){alert('Please enter a story title.');return;}
+    if(!co.data)co.data={stories:[],questions:[],notes:''};
+    if(!co.data.stories)co.data.stories=[];
+    const id='s_'+Date.now();
+    co.data.stories.push({
+      id,title,
+      tag:document.getElementById('fs_tag').value||'',
+      fit:(document.getElementById('fs_fit').value||'').split(',').map(s=>s.trim()).filter(Boolean),
+      S:document.getElementById('fs_S').value||'',
+      T:document.getElementById('fs_T').value||'',
+      A:document.getElementById('fs_A').value||'',
+      R:document.getElementById('fs_R').value||'',
+      bridge:document.getElementById('fs_bridge').value||''
+    });
+    activeStory=co.data.stories.length-1;
+  }
+  addingStory=false;
+  saveState();
+  renderContent();
+}
+
+function cancelAddStory(i){addingStory=false;activeStory=i;renderContent();}
+
+/* ════════════════════════════
+   BLANK COMPANY TABS
+   ════════════════════════════ */
+function renderBlankTab(tab,co){
+  if(!co.data)co.data={opener:'',stories:[],questions:[],notes:''};
+  const d=co.data;
+  if(tab==='opener') return renderBlankOpener(co,d);
+  if(tab==='starstories') return renderBlankStories(co,d);
+  if(tab==='askthem') return renderBlankQuestions(co,d);
+  if(tab==='notes') return renderBlankNotes(co,d);
+  return '';
+}
+
+function renderBlankOpener(co,d){
+  return `
+    <div class="label">Your Opener</div>
+    <textarea class="form-textarea" style="min-height:180px;margin-bottom:14px" id="bl_opener" placeholder="Write your tailored opener for ${escHtml(co.name)} here...">${escHtml(d.opener||'')}</textarea>
+    <div class="label" style="margin-top:4px">Key Anchors (one per line)</div>
+    <textarea class="form-textarea" style="min-height:90px;margin-bottom:14px" id="bl_anchors" placeholder="10 years&#10;Alexa GenAI → 76M users&#10;Why ${escHtml(co.name)}...">${escHtml((d.anchors||[]).join('\n'))}</textarea>
+    <button class="form-btn" onclick="saveBlankOpener()">Save</button>`;
+}
+
+function saveBlankOpener(){
+  const co=getCo();if(!co.data)co.data={};
+  co.data.opener=document.getElementById('bl_opener')?.value||'';
+  co.data.anchors=(document.getElementById('bl_anchors')?.value||'').split('\n').map(s=>s.trim()).filter(Boolean);
+  saveState();alert('Saved!');
+}
+
+function renderBlankStories(co,d){
+  if(addingStory) return renderAddStoryForm();
+  const stories=d.stories||[];
+  if(!stories.length) return `
+    <div class="story-tabs"><button class="add-story-btn" onclick="startAddStory()">＋ Add Your First Story</button></div>
+    <div style="text-align:center;padding:40px 20px;color:#505070">
+      <div style="font-size:28px;margin-bottom:10px">📖</div>
+      <div style="font-size:14px;color:#707090;margin-bottom:6px">No stories yet for ${escHtml(co.name)}</div>
+      <div style="font-size:12px">Click the button above to add your first STAR story</div>
+    </div>`;
+  const s=stories[activeStory]||stories[0];
+  const beatColors=['#534ab7','#0f6e56','#378add','#ba7517'];
+  const beatLabels=['S - Situation','T - Task','A - Action','R - Result'];
+  return `
+    <div class="story-tabs">
+      ${stories.map((st,i)=>`<button class="story-btn ${i===activeStory?'active':''}" onclick="setStory(${i})">${escHtml(st.title)}</button>`).join('')}
+      <button class="add-story-btn" onclick="startAddStory()">＋ Story</button>
+    </div>
+    <div class="story-tag">${escHtml(s.tag||'Story')}</div>
+    <div class="story-title">${escHtml(s.title)}</div>
+    ${s.fit&&s.fit.length?`<div class="fit-section"><div class="label">Question Fit</div><div class="fit-pills">${s.fit.map(f=>`<div class="pill">${escHtml(f)}</div>`).join('')}</div></div>`:''}
+    ${['S','T','A','R'].map((k,i)=>s[k]?`
+      <div class="beat" style="border-left-color:${beatColors[i]};background:#0a0a12">
+        <div class="beat-label" style="color:${beatColors[i]}">${beatLabels[i]}</div>
+        <div class="beat-text">${escHtml(s[k])}</div>
+      </div>`:'').join('')}
+    ${s.bridge?`<div class="bridge"><div class="bridge-label">${escHtml(co.name)} Bridge</div><div class="bridge-text">${escHtml(s.bridge)}</div></div>`:''}
+    <div style="margin-top:12px"><button class="del-btn" onclick="deleteStory()">Remove Story</button></div>`;
+}
+
+function deleteStory(){
+  if(!confirm('Remove this story?'))return;
+  const co=getCo();
+  if(co.id==='disney'){DISNEY_DATA.stories.splice(activeStory,1);}
+  else{(co.data.stories||[]).splice(activeStory,1);}
+  activeStory=0;saveState();renderContent();
+}
+
+function renderBlankQuestions(co,d){
+  const qs=d.questions||[];
+  return `
+    <div class="section-note">Questions to ask at the end of your ${escHtml(co.name)} interview.</div>
+    ${qs.map((q,i)=>`
+      <div class="q-card ${q.must?'must':''}">
+        <div class="q-header"><div class="q-num ${q.must?'must':''}">${i+1}</div>${q.must?'<div class="must-tag">Must ask</div>':''}</div>
+        <div class="q-text">"${escHtml(q.q)}"</div>
+        ${q.why?`<div class="q-why">${escHtml(q.why)}</div>`:''}
+        <button class="del-btn" onclick="deleteQuestion(${i})">Remove</button>
+      </div>`).join('')}
+    <div class="form-card" style="margin-top:12px">
+      <div class="form-label">Add a Question</div>
+      <div class="form-row" style="margin-top:8px"><textarea class="form-textarea" id="nq_text" placeholder='"Tell me about how the team prioritizes..."'></textarea></div>
+      <div class="form-row"><input class="form-input" id="nq_why" placeholder="Why this question signals (optional)"></div>
+      <label style="display:flex;align-items:center;gap:8px;font-size:12px;color:#707090;margin-bottom:10px;cursor:pointer">
+        <input type="checkbox" id="nq_must"> Mark as must-ask
+      </label>
+      <button class="form-btn" onclick="addQuestion()">Add Question</button>
+    </div>`;
+}
+
+function addQuestion(){
+  const co=getCo();if(!co.data)co.data={};if(!co.data.questions)co.data.questions=[];
+  const text=document.getElementById('nq_text')?.value.trim();
+  if(!text)return;
+  co.data.questions.push({q:text,why:document.getElementById('nq_why')?.value||'',must:document.getElementById('nq_must')?.checked||false});
+  saveState();renderContent();
+}
+
+function deleteQuestion(i){
+  const co=getCo();(co.data.questions||[]).splice(i,1);saveState();renderContent();
+}
+
+function renderBlankNotes(co,d){
+  return `
+    <div class="label">Notes — ${escHtml(co.name)}</div>
+    <textarea class="form-textarea" style="min-height:340px;font-family:monospace;font-size:12px;line-height:1.7;margin-bottom:12px" id="bl_notes" placeholder="Recruiter feedback, follow-up tasks, key dates, anything...">${escHtml(d.notes||'')}</textarea>
+    <button class="form-btn" onclick="saveNotes()">Save Notes</button>`;
+}
+
+function saveNotes(){
+  const co=getCo();if(!co.data)co.data={};
+  co.data.notes=document.getElementById('bl_notes')?.value||'';
+  saveState();alert('Saved!');
+}
+
+/* ════════════
+   STORY NAV
+   ════════════ */
+function setStory(i){activeStory=i;addingStory=false;renderContent();}
+
+/* ════════════
+   MODAL
+   ════════════ */
+function openModal(){
+  pickedColor=COLORS[Math.floor(Math.random()*COLORS.length)];
+  renderSwatches();
+  document.getElementById('nc_name').value='';
+  document.getElementById('nc_role').value='';
+  document.getElementById('nc_sub').value='';
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+function renderSwatches(){
+  document.getElementById('swatches').innerHTML=COLORS.map(c=>
+    `<div class="swatch${c===pickedColor?' sel':''}" style="background:${c}" onclick="pickColor('${c}',this)"></div>`
+  ).join('');
+}
+function pickColor(c,el){pickedColor=c;document.querySelectorAll('.swatch').forEach(s=>s.classList.remove('sel'));el.classList.add('sel');}
+
+function addCompany(){
+  const name=document.getElementById('nc_name').value.trim();
+  if(!name)return;
+  const role=document.getElementById('nc_role').value.trim();
+  const sub=document.getElementById('nc_sub').value.trim();
+  const id='co_'+Date.now();
+  companies.push({id,name,color:pickedColor,label:'Interview Prep',title:role?`${name} — ${role}`:name,sub,data:{opener:'',anchors:[],stories:[],questions:[],notes:''}});
+  saveState();closeModal();
+  activeCoIdx=companies.length-1;activeTab=0;activeStory=0;
+  renderSidebar();renderHeader();renderTabs();renderContent();
+}
+
+/* ════════════
+   INIT
+   ════════════ */
+function init(){
+  renderSidebar();renderHeader();renderTabs();renderContent();
+}
+init();
+</script>
+</body>
+</html>
