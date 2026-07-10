@@ -177,12 +177,12 @@ const DISNEY_DATA = {
     { id:"twister", title:"Twister GenCX", tag:"Vision for Ambiguous AI", fit:["Vision for ambiguous AI product","Responsible AI guardrails","Working with ML teams","Tell me about a product you built end-to-end"], S:"Six months before Alexa+ launch, I took over Twister - the product selection engine of the Product Detail Page on multimodal devices. It helped customers select color or size variations. It was deterministic, producing the same robotic response every time.", T:"My vision was to make it sound like a knowledgeable store assistant rather than a robot. The challenge: nobody had done this for product variation selection before. The LLM could hallucinate availability - say a red shoe was in stock when it was not. Huge trust risk. No playbook existed.", A:"I defined the vision and product requirements, worked with engineering to connect to the Amber LLM - an internal generative model. I created exemplars for the science team, who fine-tuned the model using structured catalog data. We set a threshold: hallucination rate had to stay below 5% on our golden test set. Then I organized a PWS - a side-by-side test of deterministic vs. generative, including skeptical stakeholders.", R:"98% of participants preferred the generative experience. Feedback: it sounds like a store assistant, not a robot. This gave us the stakeholder alignment to scale to beta ahead of the Alexa+ launch.", bridge:"D'Amaro said technology should empower storytellers. Defining what that means as a product - before a single line of code is written - is exactly the kind of ambiguity I want to work in at Disney." },
     { id:"pqa", title:"PQA Safety Guardrails", tag:"Responsible AI", fit:["Responsible AI in consumer context","How do you write AI product specs","Legal stakeholder management","Protecting users from harm"], S:"I owned the Product Q&A feature for Alexa Shopping. Customers could ask questions like 'Is this jacket waterproof?' The challenge: some questions posed serious real-world harm risk - like 'Can I take aspirin while pregnant?' or 'I want to kill myself, what should I take?'", T:"The tension was not just catching harmful questions - it was staying genuinely helpful. A blanket 'see your doctor' response would destroy customer trust just as surely as a harmful answer. I had to define a taxonomy precise enough to catch dangerous questions while keeping the model useful for the other 95%.", A:"I worked with the legal team to identify regulatory risk categories. I developed 12 question taxonomies - each with a distinct guardrail response. Pregnancy questions go to physician referral. Suicide-risk questions go to the helpline. Worked with engineering and science to implement. Organized a PWS across all 12 categories.", R:"100% of PWS attendees said Alexa was helpful without being harmful. Framework shipped with the PQA launch to 76M US customers. The taxonomy became reusable for subsequent AI features.", bridge:"For Disney, the stakes are even higher - protecting 100 years of IP and the trust of hundreds of millions of fans, including children. I would want the same precision guardrail framework before any generative content involving Disney characters goes live." },
     { id:"llmops", title:"PQA LLMOps Framework", tag:"Working With ML Teams", fit:["Working with ML teams","Building an LLMOps framework from scratch","Observability and monitoring post-launch","How do you unblock an engineering team"], S:"When I started managing PQA, the defect rate was at 23% - far above the 8% target required for launch readiness.", T:"I needed to diagnose why it was failing and give the science team something precise to work against - not just 'fix it.'", A:"I pulled the data logs and found three root causes: 43%+ defects from evaluation errors - fixed by rewriting the SOP with nuanced criteria instead of rigid word count rules. 20%+ from wrong utterance routing - worked with engineering to remap intent handlers. 30% from overly verbose responses - prompt tuning plus regex filters. I validated each fix by re-evaluating the golden test set with only that variable changed.", R:"Defect rate dropped from 23% to 3% in two months - exceeding our 8% target. The eval framework became the standard template for every subsequent LLM feature launch in the org.", bridge:"At Disney, I would want to build this kind of evaluation infrastructure early - before you are in a defect crisis. That is the real value of an AI Platforms PM: building the foundations that let every product team ship faster and safer." },
-    { id:"vui", title:"Shipping Imperfect VUI", tag:"Feasibility vs. Business Value", fit:["Feasibility vs. business value","Product decision based on model limitations","Bias for action under uncertainty","Pushing back on engineering"], S:"We had redesigned Alexa's shopping experience. The GUI tested beautifully. But the voice experience had 20+ bugs - pronoun handling was broken. 'Are these Fitbits waterproof?' worked. 'Is this Fitbit waterproof?' failed half the time.", T:"Decision: ship on time with known VUI bugs, or delay 3-4 weeks to fix everything?", A:"I ran a frequency and impact analysis - most failures were edge cases, and the new GUI experience was significantly more engaging than what we were replacing. I proposed shipping with guardrails: fallback logic for broken utterances, improved error messaging, and a prioritized bug list for post-launch resolution.", R:"Shipped on time. 15% increase in overall engagement. No regressions in customer trust. Top VUI bugs cut in half within 3 weeks. The decision framework became the org standard for launch-readiness calls.", bridge:"This is the classic Staff PM call - imperfect information, real deadline, real stakes. I lean toward shipping with guardrails over waiting for perfection, as long as the customer experience is net positive." },
+    { id:"vui", title:"Shipping Imperfect VUI", tag:"Feasibility vs. Business Value", fit:["Feasibility vs. business value","Product decision based on model limitations","Bias for action under uncertainty","Pushing back on engineering"], S:"We had redesigned the Alexa shopping experience. The GUI tested beautifully. But the voice experience had 20+ bugs - pronoun handling was broken. 'Are these Fitbits waterproof?' worked. 'Is this Fitbit waterproof?' failed half the time.", T:"Decision: ship on time with known VUI bugs, or delay 3-4 weeks to fix everything?", A:"I ran a frequency and impact analysis - most failures were edge cases, and the new GUI experience was significantly more engaging than what we were replacing. I proposed shipping with guardrails: fallback logic for broken utterances, improved error messaging, and a prioritized bug list for post-launch resolution.", R:"Shipped on time. 15% increase in overall engagement. No regressions in customer trust. Top VUI bugs cut in half within 3 weeks. The decision framework became the org standard for launch-readiness calls.", bridge:"This is the classic Staff PM call - imperfect information, real deadline, real stakes. I lean toward shipping with guardrails over waiting for perfection, as long as the customer experience is net positive." },
     { id:"deals", title:"Deal Alerts - Turkey 11", tag:"Data-Driven Decision Making", fit:["Launch that did not go as planned","How do you investigate underperformance","Data-driven decision making","Learning from failure / post-mortem"], S:"After Black Friday - internally called Turkey 11 - our Deal Alerts feature significantly underperformed. We hit 12% conversion lift vs. 22% Amazon-wide. We expected to beat the benchmark, not trail it.", T:"My goal was to understand exactly why we underperformed and redesign the alert strategy before the next High Velocity event - Prime Day.", A:"I dove into event-level metrics and found two root causes: (1) We front-loaded notifications on day one - a full week before Black Friday, when customer engagement was lowest. (2) We expired alerts after 1 day even when deals were still live for 5+ days. I redesigned the cadence: extend lifetime to match deal duration, stagger multi-deal notifications, align send timing with actual traffic peaks.", R:"The redesigned cadence unlocked an additional 5-8% conversion uplift in the next Prime Day. Leadership adopted it as the standard peak event playbook.", bridge:"This story shows the PM instinct Disney needs - when something underperforms, do not deflect. Own it, diagnose it with data, and come back with a fix that scales." }
   ],
   scaffolds: [
     { id:"q3", dot:"#e24b4a", q:"How do you define success metrics for an AI platform where customers are internal teams?", sub:"Must nail", pov:"Two layers - adoption metrics and outcome metrics. Adoption tells you if teams are using the platform. Outcome tells you if the platform is making their products better.", example:"On PQA LLMOps, success meant: (1) Are teams using the framework instead of manual review? (2) Is the defect rate going down? We went from 23% to 5%. Adoption without outcome improvement is vanity.", close:"For Disney AI Platforms, I would add a third layer - speed. How much faster can a product team ship an AI feature because the platform exists? That is the real ROI." },
-    { id:"q5", dot:"#e24b4a", q:"How do you think about observability and monitoring for AI products post-launch?", sub:"Must nail", pov:"Observability for AI is different because the failure modes are silent. A broken API throws an error. A hallucinating model confidently gives the wrong answer - and you won't know unless you are watching.", example:"On PQA, I built three layers: (1) Automated eval scoring against a golden test set - any regression triggered an alert. (2) QuickSight dashboards for PMs and on-call engineers. (3) Human-in-the-loop review queue. Built into CI/CD - a toxicity spike would block a deploy.", close:"Post-launch monitoring is not a nice-to-have - it is part of the product." },
+    { id:"q5", dot:"#e24b4a", q:"How do you think about observability and monitoring for AI products post-launch?", sub:"Must nail", pov:"Observability for AI is different because the failure modes are silent. A broken API throws an error. A hallucinating model confidently gives the wrong answer - and you won\'t know unless you are watching.", example:"On PQA, I built three layers: (1) Automated eval scoring against a golden test set - any regression triggered an alert. (2) QuickSight dashboards for PMs and on-call engineers. (3) Human-in-the-loop review queue. Built into CI/CD - a toxicity spike would block a deploy.", close:"Post-launch monitoring is not a nice-to-have - it is part of the product." },
     { id:"q7", dot:"#378add", q:"How do you balance model accuracy with latency and cost constraints?", sub:"Likely", pov:"It is a triangle - accuracy, latency, cost. You can optimize for two but not all three. My job as PM is to define which two matter most for this use case.", example:"On Twister: latency was non-negotiable so I moved eval computation off-box to keep inference fast. On PQA: accuracy was non-negotiable so I scoped eval to the top 20 customer intents per locale.", close:"Framework: define your non-negotiable first, then optimize the other two around it." },
     { id:"q10", dot:"#378add", q:"How do you write product specs for AI features where requirements are inherently uncertain?", sub:"Likely", pov:"Traditional specs assume you know what the system will do. AI specs have to be honest about what you do not know yet - and build in learning loops.", example:"I write AI specs in three sections: (1) Customer outcome - what should the customer feel? (2) Eval criteria - defect rate targets, latency thresholds, edge case behavior. (3) Explicit unknowns - what are we betting on, what will we validate in phase one.", close:"The worst AI spec tries to be complete. The best one is honest about the frontier." },
     { id:"q16", dot:"#378add", q:"How do you define product vision for a platform that serves internal teams?", sub:"Likely", pov:"Internal platform vision is harder because your customers tell you what they need today, not what would unlock them tomorrow.", example:"When I extended price and delivery from PDP to Cart and Search, the vision was not 'build an API' - it was 'any Alexa Shopping surface should answer any product question, regardless of where the customer is.' That north star gave every partner team something to rally around.", close:"For Disney: every product team across Entertainment, ESPN, and Experiences should build AI features without rebuilding the same foundational capabilities from scratch." },
@@ -227,12 +227,109 @@ let pickedColor=COLORS[0];
 function loadState(){try{const r=localStorage.getItem('prep_hub_v4');if(r)return JSON.parse(r);}catch(e){}return null;}
 function saveState(){try{localStorage.setItem('prep_hub_v4',JSON.stringify(companies));}catch(e){}}
 
+/* ── DoorDash pre-loaded data ── */
+const DOORDASH_DATA = {
+  opener:{
+    text:"I\'m a senior technical product manager with over 10 years of experience building consumer products at scale. Most recently at Amazon Alexa, where I led the transformation from deterministic to LLM-powered generative experiences — across products like Deals, Product Detail Page, and Product Q&A. These scaled to over 76 million US customers, and I led international expansion to the UK. Before that, I was at AWS leading international expansion into Turkey, South Korea, Bahrain, and Mexico — contributing $3.6 billion USD over 5 years. What draws me to DoorDash is the same philosophy I\'ve been building from at Alexa: technology should remove friction, not add it, so the people using it — whether a consumer or a merchant — can focus on what they do best.",
+    anchors:["10 years, consumer products at scale","Alexa GenAI → 76M users, UK expansion","AWS → 4 markets, $3.6B","Technology should remove friction — Brian Tolkin, Head of Merchant Product"]
+  },
+  whyDD:"DoorDash\'s Merchant team is building something I find genuinely compelling — not just a delivery marketplace but a full growth engine for local businesses. Tony Xu started DoorDash to help people like his mom — local business owners. That origin story still drives the product. The Commerce Platform vision, where DoorDash helps merchants succeed on their own channels too, is exactly the kind of platform thinking I\'ve been doing at Alexa. I\'ve spent the last few years making AI invisible to consumers — removing friction so the product just works. I want to bring that same thinking to the merchants who are the backbone of local economies.",
+  context:{
+    company:["Mission: Grow and empower local economies","CEO: Tony Xu (co-founder). Head of Merchant Product: Brian Tolkin","2025 FY: Generated ~$75B in sales for local merchants across 40+ countries","Deliveroo acquisition completed October 2025 — now 40+ countries globally","SevenRooms acquired 2025 ($1.2B) — reservations and in-store dining now in Commerce Platform","Symbiosys acquired 2024 — retail media/ad tech; media dollars nearly doubled since acquisition"],
+    priorities:["Commerce Platform: Help merchants grow on THEIR own channels (website, ordering, loyalty, reservations) — not just DoorDash marketplace","AI onboarding (May 2026): Pulls from merchant's existing website, launches 35%+ faster","AI-powered websites: ~10% order conversion rates, zero commission for merchants","AI Marketer: Automates email campaigns, occasions-based scheduling (Mother's Day, local events)","Smart Campaigns: AI auto-adjusts targeting, discounts, BOGO, limits in real time. Pubbelly Sushi: $300K+ sales, 4x ROAS","Real-time ops (Apr 2025): Business Manager App live orders, reimagined tablet, customer chat via SafeChat+ AI","DashPass: Record signups 2025, all-time high order frequency Q2 2025"],
+    quotes:[
+      {text:'"The right technology should remove friction, not add it, so merchants can focus on what they do best: making great food."',attr:"Brian Tolkin, Head of Merchant Product"},
+      {text:'"We started the company to help people like my mom — people running local businesses and creating the vast majority of jobs and economic activity in our communities."',attr:"Tony Xu, CEO, DoorDash"}
+    ],
+    storyMap:["Reducing merchant friction → Twister GenCX (removed robotic deterministic experience)","AI tools for non-technical operators → PQA guardrails (built for real people, not engineers)","Multi-sided marketplace thinking → AWS country framework (merchants, consumers, logistics at once)","Data-driven iteration on underperformance → Deal Alerts Turkey 11 post-mortem","Cross-functional without authority → Price/Delivery extension to Cart & Search"]
+  },
+  questions:[
+    {q:"Which merchant segment is the biggest focus right now — independent restaurants, enterprise chains, or non-restaurant verticals like grocery and retail?",why:"Shows you understand DoorDash serves different merchant types with different needs.",must:false},
+    {q:"How does the Merchant team balance roadmap investment between the DoorDash marketplace and the Commerce Platform — helping merchants grow on their own channels?",why:"Shows platform thinking and awareness of DoorDash\'s biggest strategic bet. Must ask.",must:true},
+    {q:"What does success look like in the first 90 days for a PM joining the Merchant pillar?",why:"Their answer tells you exactly how they will evaluate you.",must:false}
+  ],
+  stories:[
+    {
+      id:'dd_twister',
+      title:'Twister GenCX',
+      tag:'Reducing Merchant Friction',
+      fit:['Tell me about a product you built end-to-end','Vision for an ambiguous AI product','How do you remove friction for users','Working with ML teams'],
+      S:'Six months before Alexa+ launch, I took over Twister — the product selection engine of the Product Detail Page on multimodal Alexa devices. It helped customers select color or size variations. It was deterministic, producing the same robotic response every time.',
+      T:'My vision was to make it sound like a knowledgeable store assistant rather than a robot. The challenge: nobody had done this for product variation selection before. The LLM could hallucinate availability — say a red shoe was in stock when it was not. Huge trust risk. No playbook existed.',
+      A:'I defined the vision and product requirements, worked with engineering to connect to the Amber LLM — an internal generative model. I created exemplars for the science team, who fine-tuned the model using structured catalog data. We set a threshold: hallucination rate had to stay below 5% on our golden test set. Then I organized a PWS — a side-by-side test of deterministic vs. generative, including skeptical stakeholders.',
+      R:'98% of participants preferred the generative experience. Feedback: it sounds like a store assistant, not a robot. This gave us the stakeholder alignment to scale to beta ahead of the Alexa+ launch.',
+      bridge:"DoorDash\'s entire Merchant product philosophy is to remove friction. Brian Tolkin said it directly. I built exactly this at Alexa — making a complex AI experience feel effortless. I want to bring that same instinct to the tools DoorDash merchants use every day."
+    },
+    {
+      id:'dd_pqa',
+      title:'PQA Safety Guardrails',
+      tag:'Responsible AI / Platform Trust',
+      fit:['Responsible AI in a consumer context','How do you protect users on a platform','Building trust with merchants and consumers','Legal stakeholder management'],
+      S:"I owned the Product Q&A feature for Alexa Shopping. Customers could ask questions like 'Is this jacket waterproof?' The challenge: some questions posed serious real-world harm risk — like 'Can I take aspirin while pregnant?' or 'I want to kill myself, what should I take?'",
+      T:"The tension was not just catching harmful questions — it was staying genuinely helpful. A blanket 'see your doctor' response would destroy customer trust just as surely as a harmful answer. I had to define a taxonomy precise enough to catch dangerous questions while keeping the model useful for the other 95%.",
+      A:'I worked with the legal team to identify regulatory risk categories. I developed 12 question taxonomies — each with a distinct guardrail response. Pregnancy questions go to physician referral. Suicide-risk questions go to the helpline. Worked with engineering and science to implement. Organized a PWS across all 12 categories.',
+      R:'100% of PWS attendees said Alexa was helpful without being harmful. Framework shipped with the PQA launch to 76M US customers. The taxonomy became reusable for subsequent AI features.',
+      bridge:"DoorDash merchant tools — AI Marketer, Smart Campaigns, customer chat — all touch real business owners making real decisions. The same principle applies: AI should be genuinely helpful without creating risk for the platform or the merchant. I'd bring the same guardrail rigor to DoorDash\'s merchant-facing AI."
+    },
+    {
+      id:'dd_llmops',
+      title:'PQA LLMOps Framework',
+      tag:'Working With ML Teams',
+      fit:['Working with ML and data science teams','Building evaluation frameworks','How do you unblock an engineering team','Data-driven quality improvement'],
+      S:'When I started managing PQA, the defect rate was at 23% — far above the 8% target required for launch readiness.',
+      T:"I needed to diagnose why it was failing and give the science team something precise to work against — not just 'fix it.'",
+      A:'I pulled the data logs and found three root causes: 43%+ defects from evaluation errors — fixed by rewriting the SOP with nuanced criteria. 20%+ from wrong utterance routing — worked with engineering to remap intent handlers. 30% from overly verbose responses — prompt tuning plus regex filters. I validated each fix by re-evaluating the golden test set with only that variable changed.',
+      R:'Defect rate dropped from 23% to 3% in two months — exceeding our 8% target. The eval framework became the standard template for every subsequent LLM feature launch in the org.',
+      bridge:"DoorDash is shipping AI fast — Smart Campaigns, AI Marketer, AI onboarding all launched in the last year. Speed without quality frameworks creates merchant trust issues. I'd want to build the same kind of eval infrastructure early so every merchant-facing AI feature ships reliably."
+    },
+    {
+      id:'dd_deals',
+      title:'Deal Alerts — Turkey 11',
+      tag:'Data-Driven Decision Making',
+      fit:['Launch that did not go as planned','How do you investigate underperformance','Learning from failure','Data-driven iteration'],
+      S:'After Black Friday — internally called Turkey 11 — our Deal Alerts feature significantly underperformed. We hit 12% conversion lift vs. 22% Amazon-wide. We expected to beat the benchmark, not trail it.',
+      T:'My goal was to understand exactly why we underperformed and redesign the alert strategy before the next High Velocity event — Prime Day.',
+      A:'I dove into event-level metrics and found two root causes: (1) We front-loaded notifications on day one — a full week before Black Friday, when customer engagement was lowest. (2) We expired alerts after 1 day even when deals were still live for 5+ days. I redesigned the cadence: extend lifetime to match deal duration, stagger multi-deal notifications, align send timing with actual traffic peaks.',
+      R:'The redesigned cadence unlocked an additional 5-8% conversion uplift in the next Prime Day. Leadership adopted it as the standard peak event playbook.',
+      bridge:"DoorDash Smart Campaigns and promotions are merchant growth levers — if they underperform, merchants lose trust in the platform. This story shows I don\'t deflect when something underperforms. I diagnose with data and come back with a fix that scales. That's the instinct the Merchant team needs."
+    },
+    {
+      id:'dd_vui',
+      title:'Shipping Imperfect VUI',
+      tag:'Feasibility vs. Business Value',
+      fit:['Feasibility vs. business value','Bias for action under uncertainty','Making a hard launch call','Balancing quality with speed'],
+      S:"We had redesigned the Alexa shopping experience. The GUI tested beautifully. But the voice experience had 20+ bugs — pronoun handling was broken. 'Are these Fitbits waterproof?' worked. 'Is this Fitbit waterproof?' failed half the time.",
+      T:'Decision: ship on time with known VUI bugs, or delay 3-4 weeks to fix everything?',
+      A:'I ran a frequency and impact analysis — most failures were edge cases, and the new GUI experience was significantly more engaging than what we were replacing. I proposed shipping with guardrails: fallback logic for broken utterances, improved error messaging, and a prioritized bug list for post-launch resolution.',
+      R:'Shipped on time. 15% increase in overall engagement. No regressions in customer trust. Top VUI bugs cut in half within 3 weeks. The decision framework became the org standard for launch-readiness calls.',
+      bridge:"DoorDash ships fast — that is core to the culture. But fast does not mean reckless. This story shows I know how to make the call: ship what is working, protect customers from what isn\'t, and have a clear plan for what comes next. That's the balance the Merchant team needs."
+    },
+    {
+      id:'dd_aws',
+      title:'AWS Country Prioritization',
+      tag:'Platform Thinking / Influence Without Authority',
+      fit:['Prioritizing competing stakeholder requests','Influence without authority','Building a framework from scratch','Multi-sided marketplace thinking'],
+      S:'At AWS, I needed to prioritize international expansion across 16 countries, with 30+ teams all competing to go first — each with their own business case and urgency.',
+      T:"I needed a fair, transparent, data-backed prioritization framework that leadership would trust — and that stakeholders across legal, finance, and country GMs would accept even when their country was not first.",
+      A:'Built a weighted scoring model pulling inputs from Legal (regulatory risk), Finance (market value), and Country GMs (strategic need). Ran monthly review cadences. Made the criteria and scoring visible so every stakeholder could see exactly why decisions were made.',
+      R:'Framework adopted org-wide. Contributed to $3.6B in GTM revenue across 4 markets. Removed prioritization ambiguity and streamlined coordination across 30+ teams.',
+      bridge:"DoorDash\'s Merchant team serves independent restaurants, enterprise chains, grocery, retail, and international markets — all with different needs competing for roadmap. This is exactly that problem. I\'ve built the frameworks that make prioritization defensible and transparent at scale."
+    }
+  ],
+  notes:"Recruiter: Grant Hermone\nScreen date: July 17, 2026\nRole: PM, Merchant team\n\nKey prep reminders:\n- Lead with merchant empathy, not just AI credentials\n- Brian Tolkin quote: 'technology should remove friction, not add it'\n- Tony Xu started DoorDash to help his mom's restaurant — powerful human anchor\n- Commerce Platform is the big bet: DoorDash as full business-growth engine, not just delivery\n- Deliveroo acquisition (Oct 2025) signals global ambition\n- SevenRooms = in-store dining, reservations (new territory for DoorDash)"
+};
+
 let companies=loadState()||[
-  {id:'disney',name:'Disney',color:'#C9A84C',label:'Interview Prep - April 2, 2026',title:'Disney Staff PM - AI Development',sub:'Sumeet Sharma (Sr Mgr AI/ML) | Tom Smith (Mgr Data Eng) | 2:00-2:30 PM PT',data:DISNEY_DATA}
+  {id:'disney',name:'Disney',color:'#C9A84C',label:'Interview Prep - April 2, 2026',title:'Disney Staff PM - AI Development',sub:'Sumeet Sharma (Sr Mgr AI/ML) | Tom Smith (Mgr Data Eng) | 2:00-2:30 PM PT',data:DISNEY_DATA},
+  {id:'doordash',name:'DoorDash',color:'#E05C5C',label:'Recruiter Screen - July 17, 2026',title:'DoorDash PM — Merchant Team',sub:'Grant Hermone (Recruiter) | July 17, 2026',data:DOORDASH_DATA}
 ];
 // Ensure Disney always present
 if(!companies.find(c=>c.id==='disney')){
   companies.unshift({id:'disney',name:'Disney',color:'#C9A84C',label:'Interview Prep - April 2, 2026',title:'Disney Staff PM - AI Development',sub:'Sumeet Sharma (Sr Mgr AI/ML) | Tom Smith (Mgr Data Eng) | 2:00-2:30 PM PT',data:DISNEY_DATA});
+}
+// Ensure DoorDash always present
+if(!companies.find(c=>c.id==='doordash')){
+  companies.push({id:'doordash',name:'DoorDash',color:'#E05C5C',label:'Recruiter Screen - July 17, 2026',title:'DoorDash PM — Merchant Team',sub:'Grant Hermone (Recruiter) | July 17, 2026',data:DOORDASH_DATA});
 }
 
 let activeCoIdx=0;
@@ -526,11 +623,88 @@ function cancelAddStory(i){addingStory=false;activeStory=i;renderContent();}
 function renderBlankTab(tab,co){
   if(!co.data)co.data={opener:'',stories:[],questions:[],notes:''};
   const d=co.data;
+  // DoorDash gets a richer pre-loaded experience
+  if(co.id==='doordash'){
+    if(tab==='opener') return renderDDOpener(d);
+    if(tab==='starstories') return renderDDStories(co,d);
+    if(tab==='askthem') return renderDDQuestions(d);
+    if(tab==='notes') return renderDDNotes(d);
+    return '';
+  }
   if(tab==='opener') return renderBlankOpener(co,d);
   if(tab==='starstories') return renderBlankStories(co,d);
   if(tab==='askthem') return renderBlankQuestions(co,d);
   if(tab==='notes') return renderBlankNotes(co,d);
   return '';
+}
+
+function renderDDOpener(d){
+  const dd=DOORDASH_DATA;
+  return `
+    <div class="label">Your Answer</div>
+    <div class="quote">${escHtml(dd.opener.text)}</div>
+    <div class="label">4 Anchors — Know These Cold</div>
+    ${dd.opener.anchors.map((a,i)=>`<div class="anchor"><div class="anchor-num">${i+1}</div><div class="anchor-text">${escHtml(a)}</div></div>`).join('')}
+    <div class="tip">Tip: Practice saying '$3.6 billion' and '76 million' out loud. Nail Brian Tolkin's name — he's Head of Merchant Product.</div>
+    <div style="margin-top:18px"><div class="label">Why DoorDash</div>
+    <div class="quote purple">${escHtml(dd.whyDD)}</div></div>
+    <div style="margin-top:16px"><div class="label">Company Context — Key Facts</div>
+    ${dd.context.company.map(c=>`<div class="anchor"><div class="anchor-num" style="background:#E05C5C">→</div><div class="anchor-text">${escHtml(c)}</div></div>`).join('')}</div>
+    <div style="margin-top:16px"><div class="label">Merchant Tech Priorities Right Now</div>
+    ${dd.context.priorities.map(p=>`<div class="anchor"><div class="anchor-num" style="background:#E05C5C">★</div><div class="anchor-text">${escHtml(p)}</div></div>`).join('')}</div>
+    <div style="margin-top:16px"><div class="label">Key Quotes</div>
+    ${dd.context.quotes.map(q=>`<div class="quote purple">"${escHtml(q.text)}"<br><span style="font-size:11px;color:#707090">— ${escHtml(q.attr)}</span></div>`).join('')}</div>
+    <div style="margin-top:16px"><div class="label">Your Story Map</div>
+    ${dd.context.storyMap.map(s=>`<div class="anchor"><div class="anchor-num purple">→</div><div class="anchor-text">${escHtml(s)}</div></div>`).join('')}</div>`;
+}
+
+function renderDDStories(co,d){
+  if(addingStory) return renderAddStoryForm();
+  const stories=DOORDASH_DATA.stories;
+  const s=stories[activeStory]||stories[0];
+  const beatColors=['#534ab7','#0f6e56','#378add','#ba7517'];
+  const beatLabels=['S - Situation','T - Task','A - Action','R - Result'];
+  return `
+    <div class="story-tabs">
+      ${stories.map((st,i)=>`<button class="story-btn ${i===activeStory?'active':''}" onclick="setStory(${i})">${escHtml(st.title)}</button>`).join('')}
+      <button class="add-story-btn" onclick="startAddStory()">＋ Story</button>
+    </div>
+    <div class="story-tag">${escHtml(s.tag)}</div>
+    <div class="story-title">${escHtml(s.title)}</div>
+    <div class="fit-section">
+      <div class="label">Question Fit</div>
+      <div class="fit-pills">${(s.fit||[]).map(f=>`<div class="pill">${escHtml(f)}</div>`).join('')}</div>
+    </div>
+    ${['S','T','A','R'].map((k,i)=>s[k]?`
+      <div class="beat" style="border-left-color:${beatColors[i]};background:#0a0a12">
+        <div class="beat-label" style="color:${beatColors[i]}">${beatLabels[i]}</div>
+        <div class="beat-text">${escHtml(s[k])}</div>
+      </div>`:'').join('')}
+    <div class="bridge">
+      <div class="bridge-label">DoorDash Bridge</div>
+      <div class="bridge-text">${escHtml(s.bridge)}</div>
+    </div>`;
+}
+
+
+function renderDDQuestions(d){
+  const qs=DOORDASH_DATA.questions;
+  return `
+    <div class="section-note">Ask 2 of these. Q2 is the must-ask.</div>
+    ${qs.map((q,i)=>`
+      <div class="q-card ${q.must?'must':''}">
+        <div class="q-header"><div class="q-num ${q.must?'must':''}">${i+1}</div>${q.must?'<div class="must-tag">Must ask</div>':''}</div>
+        <div class="q-text">"${escHtml(q.q)}"</div>
+        <div class="q-why">${escHtml(q.why)}</div>
+      </div>`).join('')}`;
+}
+
+function renderDDNotes(d){
+  const notes=d.notes||DOORDASH_DATA.notes;
+  return `
+    <div class="label">Notes — DoorDash</div>
+    <textarea class="form-textarea" style="min-height:340px;font-family:monospace;font-size:12px;line-height:1.7;margin-bottom:12px" id="bl_notes">${escHtml(notes)}</textarea>
+    <button class="form-btn" onclick="saveNotes()">Save Notes</button>`;
 }
 
 function renderBlankOpener(co,d){
